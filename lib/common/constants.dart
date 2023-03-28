@@ -7,7 +7,7 @@ const String chatbotAvatarUrl =
 const String userAvatarUrl =
     'https://static.thenounproject.com/png/562360-200.png';
 
-const String apiKey = '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';
+const String apiKey = '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';
 
 const List<DeviceOrientation> supportedOrientations = [
   DeviceOrientation.portraitUp,

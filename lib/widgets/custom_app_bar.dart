@@ -14,34 +14,33 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 15,
-        ),
-        decoration: _appBarDecoration(),
-        child: Row(
-          children: [
-            CupertinoButton(
-              padding: EdgeInsets.zero,
-              child: const Icon(
-                Icons.arrow_back_ios_new_outlined,
-                color: Colors.grey,
-                size: 25,
-              ),
-              onPressed: () => Navigator.pop(context),
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 15,
+      ),
+      decoration: _appBarDecoration(),
+      child: Row(
+        children: [
+          CupertinoButton(
+            padding: EdgeInsets.zero,
+            child: const Icon(
+              Icons.arrow_back_ios_new_outlined,
+              color: Colors.black,
+              size: 25,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(chatbotAvatarUrl),
-              ),
+            onPressed: () => Navigator.pop(context),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              backgroundImage: NetworkImage(chatbotAvatarUrl),
             ),
-            const SizedBox(width: 5),
-            _statusText(),
-          ],
-        ),
+          ),
+          const SizedBox(width: 5),
+          _statusText(),
+        ],
       ),
     );
   }

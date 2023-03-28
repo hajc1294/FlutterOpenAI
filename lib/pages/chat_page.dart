@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../viewmodels/chat_view_model.dart';
 import '../viewmodels/status.dart';
@@ -17,39 +18,67 @@ class ChatPage extends StatefulWidget {
 class _ChatBotState extends State<ChatPage> {
   final RxString message = RxString('');
   final ChatViewModel _chatViewModel = ChatViewModel();
+  final AutoScrollController _autoScrollController = AutoScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: CustomBottomNavBar(
-        onSend: (text) => _chatViewModel.sendUserMessage(text),
+        onSend: (text) {
+          _scrollDown();
+          _chatViewModel.sendUserMessage(text);
+        },
       ),
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
+        child: Column(
+          children: [
             Obx(
               () => CustomAppBar(
                 isTyping: _chatViewModel.status.value == Status.loading,
               ),
             ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 25),
-            ),
-            Obx(
-              () => SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return ChatListItem(
-                        message: _chatViewModel.messages.elementAt(index));
-                  },
-                  childCount: _chatViewModel.messages.length,
-                ),
+            Expanded(
+              child: Obx(
+                () {
+                  _scrollDown();
+                  return CustomScrollView(
+                    controller: _autoScrollController,
+                    slivers: [
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 25),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) => AutoScrollTag(
+                            key: ValueKey(index),
+                            controller: _autoScrollController,
+                            index: index,
+                            child: ChatListItem(
+                                message:
+                                    _chatViewModel.messages.elementAt(index)),
+                          ),
+                          childCount: _chatViewModel.messages.length,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
-            ),
+            )
           ],
         ),
       ),
     );
+  }
+
+  void _scrollDown() {
+    final int index = _chatViewModel.messages.length;
+    if (_autoScrollController.hasClients &&
+        _autoScrollController.position.maxScrollExtent > 0) {
+      _autoScrollController.scrollToIndex(index).then((_) {
+        _autoScrollController.highlight(index);
+      });
+    }
   }
 }

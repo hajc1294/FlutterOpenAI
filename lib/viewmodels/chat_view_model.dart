@@ -14,7 +14,7 @@ class ChatViewModel {
     isLog: true,
   );
 
-  void sendUserMessage(String text) async {
+  Future<void> sendUserMessage(String text) async {
     status.value = Status.loading;
     messages.add(Message(text: text));
 

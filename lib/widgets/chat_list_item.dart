@@ -25,15 +25,16 @@ class ChatListItem extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: 20,
+              horizontal: 10,
               vertical: 10,
             ),
             decoration: _itemDecoration(message.isBot),
             child: Row(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: message.isBot
-                  ? _createRow(chatbotAvatarUrl)
-                  : _createRow(userAvatarUrl).reversed.toList(),
+                  ? _createRow(message.isBot, chatbotAvatarUrl)
+                  : _createRow(message.isBot, userAvatarUrl).reversed.toList(),
             ),
           ),
         ],
@@ -41,17 +42,11 @@ class ChatListItem extends StatelessWidget {
     );
   }
 
-  List<Widget> _createRow(String url) => List.of([
-        Column(
-          
-          children: [
-            Container(
-              color: Colors.amber,
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(url),
-            ),
-            ),
-          ],
+  List<Widget> _createRow(bool isBot, String url) => List.of([
+        CircleAvatar(
+          maxRadius: 10,
+          backgroundColor: isBot ? Colors.white : Colors.greenAccent[400],
+          backgroundImage: NetworkImage(url),
         ),
         const SizedBox(width: 10),
         Flexible(
@@ -60,10 +55,11 @@ class ChatListItem extends StatelessWidget {
             style: const TextStyle(fontSize: 16),
           ),
         ),
+        const SizedBox(width: 10),
       ]);
 
   BoxDecoration _itemDecoration(bool isBot) => BoxDecoration(
-        color: Colors.white,
+        color: isBot ? Colors.white : Colors.greenAccent[400],
         borderRadius: BorderRadius.only(
           topRight: const Radius.circular(15),
           topLeft: const Radius.circular(15),

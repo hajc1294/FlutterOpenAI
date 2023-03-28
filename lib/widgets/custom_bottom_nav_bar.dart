@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../common/strings.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
   final void Function(String) onSend;
 
   CustomBottomNavBar({
@@ -53,10 +53,12 @@ class CustomBottomNavBar extends StatelessWidget {
       );
 
   TextFormField _messageTextFormField() => TextFormField(
-        controller: _controller,
-        onFieldSubmitted: (text) => {
-          onSend(text),
-          _controller.text = '',
+        controller: _textEditingController,
+        onFieldSubmitted: (text) {
+          if (text.isNotEmpty) {
+            onSend(text);
+            _textEditingController.text = '';
+          }
         },
         decoration: InputDecoration(
           hintText: chatPlaceholder,
@@ -78,7 +80,7 @@ class CustomBottomNavBar extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(8),
           decoration: const BoxDecoration(
-            color: Colors.grey,
+            color: Colors.black,
             shape: BoxShape.circle,
           ),
           child: const Icon(
@@ -87,9 +89,11 @@ class CustomBottomNavBar extends StatelessWidget {
             size: 20,
           ),
         ),
-        onPressed: () => {
-          onSend(_controller.text),
-          _controller.text = '',
+        onPressed: () {
+          if (_textEditingController.text.isNotEmpty) {
+            onSend(_textEditingController.text);
+            _textEditingController.text = '';
+          }
         },
       );
 }

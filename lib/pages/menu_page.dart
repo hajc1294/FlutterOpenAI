@@ -30,7 +30,7 @@ class _MenuPageState extends State<MenuPage> {
               ),
               const SizedBox(height: 80),
               _buttonNavigation(
-                '$test $chatGPT',
+                '$conversation $chatGPT',
                 _navigate(context, const ChatPage()),
                 containerColor: Colors.greenAccent[400]!,
               ),

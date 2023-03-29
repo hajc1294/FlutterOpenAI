@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'common/constants.dart';
-import 'pages/chat_page.dart';
+import 'pages/menu_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations(supportedOrientations);
 
     return const MaterialApp(
-      home: ChatPage(),
+      home: MenuPage(),
     );
   }
 }

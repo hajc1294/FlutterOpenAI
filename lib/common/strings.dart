@@ -1,4 +1,10 @@
+const String test = 'Probar ';
+const String imageGenerator = 'Generador de imágenes';
 const String chatGPT = 'ChatGPT';
 const String online = 'en línea';
 const String chatPlaceholder = 'Pregunta algo ...';
 const String typing = 'escribiendo ...';
+const String image = 'Imagen';
+const String generateInput = 'Escrbe algo para generar la imagen ...';
+const String loading = 'Cargando';
+const String openBrowser = 'Ver imagen en navegador';

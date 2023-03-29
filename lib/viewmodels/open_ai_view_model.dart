@@ -5,8 +5,9 @@ import '../common/constants.dart';
 import '../models/message.dart';
 import 'status.dart';
 
-class ChatViewModel {
+class OpenAIViewModel {
   final RxList messages = <Message>[].obs;
+  final RxString imageUrl = RxString('');
   final Rx<Status> status = Status.success.obs;
   final OpenAI openAI = OpenAI.instance.build(
     token: apiKey,
@@ -16,7 +17,7 @@ class ChatViewModel {
 
   Future<void> sendUserMessage(String text) async {
     status.value = Status.loading;
-    messages.add(Message(text: text));
+    messages.insert(0, Message(text: text));
 
     final ChatCompleteText chatCompleteText = ChatCompleteText(
       messages: [
@@ -36,7 +37,21 @@ class ChatViewModel {
     });
 
     for (var element in chatCTResponse!.choices) {
-      messages.add(Message(text: element.message.content, isBot: true));
+      messages.insert(0, Message(text: element.message.content, isBot: true));
     }
+  }
+
+  Future<void> imageGenerator(String description) async {
+    status.value = Status.loading;
+
+    final GenerateImage generateImage = GenerateImage(description, 1,
+        size: ImageSize.size256, responseFormat: Format.url);
+
+    await openAI.generateImage(generateImage).then((value) {
+      imageUrl.value = value?.data?.last?.url ?? '';
+      status.value = Status.success;
+    }).onError((error, stackTrace) {
+      status.value = Status.error;
+    });
   }
 }

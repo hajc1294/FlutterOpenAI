@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../common/constants.dart';
 import '../models/message.dart';
+import '../resources/assets_name.dart';
 
 class ChatListItem extends StatelessWidget {
   final Message message;
@@ -33,8 +34,8 @@ class ChatListItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: message.isBot
-                  ? _createRow(message.isBot, chatbotAvatarUrl)
-                  : _createRow(message.isBot, userAvatarUrl).reversed.toList(),
+                  ? _createRow(message.isBot)
+                  : _createRow(message.isBot).reversed.toList(),
             ),
           ),
         ],
@@ -42,11 +43,11 @@ class ChatListItem extends StatelessWidget {
     );
   }
 
-  List<Widget> _createRow(bool isBot, String url) => List.of([
-        CircleAvatar(
-          maxRadius: 10,
-          backgroundColor: isBot ? Colors.white : Colors.greenAccent[400],
-          backgroundImage: NetworkImage(url),
+  List<Widget> _createRow(bool isBot) => List.of([
+        SizedBox(
+          width: 15,
+          child: Image.asset(
+              isBot ? AssetsName.chatBotAvatar : AssetsName.userAvatar),
         ),
         const SizedBox(width: 10),
         Flexible(

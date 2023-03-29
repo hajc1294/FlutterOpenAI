@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
 
-import '../viewmodels/chat_view_model.dart';
+import '../viewmodels/open_ai_view_model.dart';
 import '../viewmodels/status.dart';
 import '../widgets/chat_list_item.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
@@ -12,13 +11,11 @@ class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
 
   @override
-  State<ChatPage> createState() => _ChatBotState();
+  State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatBotState extends State<ChatPage> {
-  final RxString message = RxString('');
-  final ChatViewModel _chatViewModel = ChatViewModel();
-  final AutoScrollController _autoScrollController = AutoScrollController();
+class _ChatPageState extends State<ChatPage> {
+  final OpenAIViewModel _openAIViewModel = OpenAIViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +23,7 @@ class _ChatBotState extends State<ChatPage> {
       backgroundColor: Colors.white,
       bottomNavigationBar: CustomBottomNavBar(
         onSend: (text) {
-          _scrollDown();
-          _chatViewModel.sendUserMessage(text);
+          _openAIViewModel.sendUserMessage(text);
         },
       ),
       body: SafeArea(
@@ -35,33 +31,19 @@ class _ChatBotState extends State<ChatPage> {
           children: [
             Obx(
               () => CustomAppBar(
-                isTyping: _chatViewModel.status.value == Status.loading,
+                isTyping: _openAIViewModel.status.value == Status.loading,
               ),
             ),
             Expanded(
               child: Obx(
                 () {
-                  _scrollDown();
-                  return CustomScrollView(
-                    controller: _autoScrollController,
-                    slivers: [
-                      const SliverToBoxAdapter(
-                        child: SizedBox(height: 25),
-                      ),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) => AutoScrollTag(
-                            key: ValueKey(index),
-                            controller: _autoScrollController,
-                            index: index,
-                            child: ChatListItem(
-                                message:
-                                    _chatViewModel.messages.elementAt(index)),
-                          ),
-                          childCount: _chatViewModel.messages.length,
-                        ),
-                      ),
-                    ],
+                  return ListView.builder(
+                    reverse: true,
+                    itemCount: _openAIViewModel.messages.length,
+                    itemBuilder: (context, index) {
+                      return ChatListItem(
+                          message: _openAIViewModel.messages.elementAt(index));
+                    },
                   );
                 },
               ),
@@ -70,15 +52,5 @@ class _ChatBotState extends State<ChatPage> {
         ),
       ),
     );
-  }
-
-  void _scrollDown() {
-    final int index = _chatViewModel.messages.length;
-    if (_autoScrollController.hasClients &&
-        _autoScrollController.position.maxScrollExtent > 0) {
-      _autoScrollController.scrollToIndex(index).then((_) {
-        _autoScrollController.highlight(index);
-      });
-    }
   }
 }

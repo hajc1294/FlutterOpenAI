@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../common/constants.dart';
 import '../common/strings.dart';
+import '../resources/assets_name.dart';
 
 class CustomAppBar extends StatelessWidget {
   final bool isTyping;
+  final bool onlyWithBackNavigation;
 
   const CustomAppBar({
     super.key,
-    required this.isTyping,
+    this.isTyping = false,
+    this.onlyWithBackNavigation = false,
   });
 
   @override
@@ -31,15 +33,26 @@ class CustomAppBar extends StatelessWidget {
             ),
             onPressed: () => Navigator.pop(context),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              backgroundImage: NetworkImage(chatbotAvatarUrl),
+          if (!onlyWithBackNavigation) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: SizedBox(
+                width: 35,
+                child: Image.asset(AssetsName.chatBotAvatar),
+              ),
             ),
-          ),
-          const SizedBox(width: 5),
-          _statusText(),
+            const SizedBox(width: 5),
+            _statusText(),
+          ] else ...[
+            const SizedBox(width: 10),
+            const Text(
+              image,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
         ],
       ),
     );

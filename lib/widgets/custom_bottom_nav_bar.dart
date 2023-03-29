@@ -6,16 +6,20 @@ import '../common/strings.dart';
 class CustomBottomNavBar extends StatelessWidget {
   final TextEditingController _textEditingController = TextEditingController();
   final void Function(String) onSend;
+  final String inputHint;
+  final IconData iconData;
 
   CustomBottomNavBar({
     super.key,
     required this.onSend,
+    this.inputHint = chatPlaceholder,
+    this.iconData = Icons.send,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: _bottomNavDecoration(),
+      decoration: bottomNavDecoration(),
       child: Padding(
         padding: const EdgeInsets.only(
           right: 5,
@@ -27,7 +31,7 @@ class CustomBottomNavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              child: _messageTextFormField(),
+              child: _chatTextFormField(),
             ),
             const SizedBox(width: 5),
             _sendMessageButton(),
@@ -37,7 +41,7 @@ class CustomBottomNavBar extends StatelessWidget {
     );
   }
 
-  BoxDecoration _bottomNavDecoration() => BoxDecoration(
+  static BoxDecoration bottomNavDecoration() => BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(10),
@@ -52,16 +56,18 @@ class CustomBottomNavBar extends StatelessWidget {
         ],
       );
 
-  TextFormField _messageTextFormField() => TextFormField(
+  TextFormField _chatTextFormField() => TextFormField(
         controller: _textEditingController,
+        enableSuggestions: false,
         onFieldSubmitted: (text) {
           if (text.isNotEmpty) {
             onSend(text);
             _textEditingController.text = '';
           }
         },
+        cursorColor: Colors.greenAccent[400],
         decoration: InputDecoration(
-          hintText: chatPlaceholder,
+          hintText: inputHint,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           enabledBorder: OutlineInputBorder(
@@ -83,8 +89,8 @@ class CustomBottomNavBar extends StatelessWidget {
             color: Colors.black,
             shape: BoxShape.circle,
           ),
-          child: const Icon(
-            Icons.send,
+          child: Icon(
+            iconData,
             color: Colors.white,
             size: 20,
           ),

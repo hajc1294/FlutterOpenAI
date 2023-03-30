@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../common/constants.dart';
 import '../models/message.dart';
 import '../resources/assets_name.dart';
 

@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations(supportedOrientations);
 
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MenuPage(),
     );
   }

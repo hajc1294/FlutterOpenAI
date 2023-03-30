@@ -1,4 +1,4 @@
-const String conversation = 'Conversación ';
+const String conversation = 'Conversación';
 const String imageGenerator = 'Generador de imágenes';
 const String chatGPT = 'ChatGPT';
 const String online = 'en línea';

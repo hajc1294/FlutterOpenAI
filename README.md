@@ -4,6 +4,8 @@
 
 Simple implementation of chat and image generator using OpenAI.
 
+Project implemented for educational purposes.
+
 ## Getting Started
 
 To run this project follow these steps:
@@ -29,6 +31,10 @@ About the implementation:
 
 - The app implements the MVVM design pattern, and a structure similar to what is specified for Clean Code.
 - It uses reactive programming (GetX) for event and state handling.
+
+How dows it look?:
+
+<img src="https://user-images.githubusercontent.com/61942641/228884824-94ab700a-e8f9-4431-87bd-1cd14c9673a5.png" width="250">   <img src="https://user-images.githubusercontent.com/61942641/228885678-08f15ee3-2770-4176-8a86-801d77bc4484.png" width="250">   <img src="https://user-images.githubusercontent.com/61942641/228885874-885d634e-b2bc-46dd-a42c-d27b08cc254b.png" width="250">
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,

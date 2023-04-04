@@ -24,7 +24,7 @@ class OpenAIViewModel {
         Map.of({'role': 'user', 'content': text})
       ],
       maxToken: 1000,
-      model: kChatGptTurbo0301Model,
+      model: ChatModel.ChatGptTurbo0301Model,
     );
 
     final ChatCTResponse? chatCTResponse =

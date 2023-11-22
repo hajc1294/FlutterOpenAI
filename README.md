@@ -12,7 +12,7 @@ To run this project follow these steps:
 
 1. Clone it.
 2. Open in terminal and run ```flutter pub get```.
-3. Go to https://platform.openai.com/account/api-keys and generate your own API KEY, if youu don't have an account, you must create one.
+3. Go to https://platform.openai.com/account/api-keys and generate your own API KEY, if you don't have an account, you must create one.
 4. Copy and paste your API KEY in constants.dart file.
 5. Run the project ```flutter run```.
 
